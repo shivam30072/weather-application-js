@@ -64,7 +64,7 @@ function displayWeather(data) {
   cityName.innerHTML = data?.name;
   humidity.innerHTML = data?.main?.humidity + "%";
   speed.innerHTML = data?.wind?.speed + " km/h";
-  weatherIcon.src = `./images/${data.weather[0].main}.png`;
+  weatherIcon.src = `/images/${data.weather[0].main}.png`;
   weatherInfo.innerHTML = data?.weather[0]?.description + "!";
 }
 

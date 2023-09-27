@@ -11,7 +11,6 @@ const option = document.querySelector(".options");
 
 let optionValue = "Celsius";
 option.addEventListener("click", () => {
-  console.log(option.value);
   optionValue = option.value;
   if (input.value === "") {
     searchWeather("delhi");
@@ -42,7 +41,11 @@ const searchWeather = async (value = "") => {
       }&appid=${API_KEY}&units=metric`
     );
     const data = await res.json();
-    displayWeather(data);
+    if (data?.cod === "404") {
+      alert(data?.message);
+    } else {
+      displayWeather(data);
+    }
   } catch (error) {
     console.log("error occured", error);
     alert("sorry an error occured");
@@ -52,17 +55,17 @@ const searchWeather = async (value = "") => {
 function displayWeather(data) {
   let temp;
   if (optionValue === "Celsius") {
-    temp = Math.round(data.main.temp);
+    temp = Math.round(data?.main?.temp);
     temperature.innerHTML = `${temp}°C`;
   } else {
-    temp = (Math.round(data.main.temp) * 9) / 5 + 32;
+    temp = (Math.round(data?.main?.temp) * 9) / 5 + 32;
     temperature.innerHTML = `${temp}°F`;
   }
-  cityName.innerHTML = data.name;
-  humidity.innerHTML = data.main.humidity + "%";
-  speed.innerHTML = data.wind.speed + " km/h";
-  weatherIcon.src = `./images/${data.weather[0].main}.png`;
-  weatherInfo.innerHTML = data.weather[0].description + "!";
+  cityName.innerHTML = data?.name;
+  humidity.innerHTML = data?.main?.humidity + "%";
+  speed.innerHTML = data?.wind?.speed + " km/h";
+  weatherIcon.src = `./images/${data?.weather[0]?.main}.png`;
+  weatherInfo.innerHTML = data?.weather[0]?.description + "!";
 }
 
 search.addEventListener("click", searchWeather);
